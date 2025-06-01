@@ -41,14 +41,25 @@ jobs:
         env:
           NODE_ENV: production
       
-      - name: Copy 404.html to build output
+      - name: Debug build directory
         run: |
+          echo "Listing build directory structure:"
+          ls -la build
+          ls -la build/client || echo "build/client does not exist"
+          
+      - name: Prepare for deployment
+        run: |
+          # Create necessary directories if they don't exist
+          mkdir -p build/client
+          
+          # Copy 404.html to build output
           cp public/404.html build/client/404.html
-          # Copy index.html to 404.html for SPA routing
-          cp build/client/index.html build/client/404.html
+          
           # Add .nojekyll file to bypass Jekyll processing
           touch build/client/.nojekyll
+          
           # List contents to verify
+          echo "Contents of build/client directory:"
           ls -la build/client
       
       - name: Deploy to GitHub Pages
