@@ -21,17 +21,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -42,21 +38,22 @@ jobs:
       
       - name: Build
         run: npm run build
+        env:
+          NODE_ENV: production
       
-      - name: List build directory
-        run: ls -la ./build
-      
-      - name: List client directory
-        run: ls -la ./build/client
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './build/client'
+      - name: Copy 404.html to build output
+        run: |
+          cp public/404.html build/client/404.html
+          # Copy index.html to 404.html for SPA routing
+          cp build/client/index.html build/client/404.html
+          # Add .nojekyll file to bypass Jekyll processing
+          touch build/client/.nojekyll
+          # List contents to verify
+          ls -la build/client
       
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build/client
+          branch: gh-pages
+          clean: true
