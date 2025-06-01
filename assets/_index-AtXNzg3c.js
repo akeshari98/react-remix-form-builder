@@ -1,1 +1,0 @@
-const e=()=>[{title:"Form Builder - Create and Share Forms"},{name:"description",content:"A powerful form builder to create, customize, and share forms with real-time validation."}];function t(){return null}export{t as default,e as meta};
