@@ -5,8 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting...</title>
   <script>
-    // Single-page app GitHub Pages redirect script
+    // Single-page app GitHub Pages redirect script - updated to prevent loops
     (function() {
+      // Prevent infinite redirect loops by checking if we're coming from a redirect
+      var isFromRedirect = window.sessionStorage.getItem('fromRedirect');
+      if (isFromRedirect === 'true') {
+        // We've been here before, just go to the home page
+        window.sessionStorage.removeItem('fromRedirect');
+        window.location.replace(window.location.origin + '/react-remix-form-builder/');
+        return;
+      }
+      
+      // Mark that we're doing a redirect
+      window.sessionStorage.setItem('fromRedirect', 'true');
+      
       // Save the current URL path (everything after the domain)
       var path = window.location.pathname;
       var repo = '/react-remix-form-builder/'; // Your repo name with slashes
@@ -17,8 +29,17 @@
         path = path.substr(repo.length);
       }
       
+      // Clean the path - remove any trailing slashes
+      if (path.endsWith('/') && path.length > 1) {
+        path = path.slice(0, -1);
+      }
+      
+      // Only add the path parameter if it's not empty
+      var queryParam = path ? '?path=' + path : '';
+      
       // Redirect to the index.html with the path as a query parameter
-      var redirectUrl = window.location.origin + repo + '?path=' + path;
+      var redirectUrl = window.location.origin + repo + queryParam;
+      console.log('404 redirect to:', redirectUrl);
       window.location.replace(redirectUrl);
     })();
   </script>
