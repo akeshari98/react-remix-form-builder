@@ -3,48 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
+  <title>Page Not Found</title>
   <script>
-    // Single-page app GitHub Pages redirect script - updated to prevent loops
-    (function() {
-      // Prevent infinite redirect loops by checking if we're coming from a redirect
-      var isFromRedirect = window.sessionStorage.getItem('fromRedirect');
-      if (isFromRedirect === 'true') {
-        // We've been here before, just go to the home page
-        window.sessionStorage.removeItem('fromRedirect');
-        window.location.replace(window.location.origin + '/react-remix-form-builder/');
-        return;
-      }
-      
-      // Mark that we're doing a redirect
-      window.sessionStorage.setItem('fromRedirect', 'true');
-      
-      // Save the current URL path (everything after the domain)
-      var path = window.location.pathname;
-      var repo = '/react-remix-form-builder/'; // Your repo name with slashes
-      
-      // If we're accessing a path within the repo
-      if (path.indexOf(repo) === 0) {
-        // Remove the repo name from the path
-        path = path.substr(repo.length);
-      }
-      
-      // Clean the path - remove any trailing slashes
-      if (path.endsWith('/') && path.length > 1) {
-        path = path.slice(0, -1);
-      }
-      
-      // Only add the path parameter if it's not empty
-      var queryParam = path ? '?path=' + path : '';
-      
-      // Redirect to the index.html with the path as a query parameter
-      var redirectUrl = window.location.origin + repo + queryParam;
-      console.log('404 redirect to:', redirectUrl);
-      window.location.replace(redirectUrl);
-    })();
+    // Simple redirect to the home page
+    window.location.href = '/react-remix-form-builder/';
   </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+    .container {
+      padding: 2rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 90%;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      margin: 1rem 0;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
-  <p>Redirecting to the app...</p>
+  <div class="container">
+    <h1>Page Not Found</h1>
+    <p>Redirecting to homepage...</p>
+  </div>
 </body>
 </html>

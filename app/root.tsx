@@ -21,8 +21,6 @@ declare global {
 }
 
 export const links: LinksFunction = () => [
-  // Include SPA redirect script for GitHub Pages
-  { rel: "script", href: "/spa-redirect.js", async: true },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

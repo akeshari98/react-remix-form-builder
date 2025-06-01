@@ -8,8 +8,8 @@ declare module "@remix-run/node" {
   }
 }
 
-// Get repository name for GitHub Pages base path
-const BASE_PATH = process.env.GITHUB_REPOSITORY?.split('/')?.[1] || '';
+// Set repository name for GitHub Pages base path
+const BASE_PATH = 'react-remix-form-builder';
 
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? `/${BASE_PATH}/` : '/',
