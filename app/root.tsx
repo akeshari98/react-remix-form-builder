@@ -13,7 +13,16 @@ import { useFormStore } from "./store/formStore";
 
 import "./tailwind.css";
 
+// Declare global window properties for GitHub Pages SPA routing
+declare global {
+  interface Window {
+    __remixRouterNavigate?: (path: string) => void;
+  }
+}
+
 export const links: LinksFunction = () => [
+  // Include SPA redirect script for GitHub Pages
+  { rel: "script", href: "/spa-redirect.js", async: true },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -57,6 +66,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
+}
+
+// Handle GitHub Pages SPA routing
+function handleSpaRouting() {
+  // Only run on client
+  if (typeof window === 'undefined') return '';
+
+  // Check if we're on GitHub Pages (has the repo name in the path)
+  const isGitHubPages = window.location.pathname.includes('/react-remix-form-builder/');
+  
+  // Make this function available globally for the redirect script
+  if (isGitHubPages && typeof window !== 'undefined') {
+    window.__remixRouterNavigate = (path) => {
+      // This will be defined by the spa-redirect.js script
+      console.log('SPA redirect to', path);
+    };
+  }
+  
+  return '';
 }
 
 export default function App() {

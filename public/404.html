@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    // Single-page app GitHub Pages redirect script
+    (function() {
+      // Save the current URL path (everything after the domain)
+      var path = window.location.pathname;
+      var repo = '/react-remix-form-builder/'; // Your repo name with slashes
+      
+      // If we're accessing a path within the repo
+      if (path.indexOf(repo) === 0) {
+        // Remove the repo name from the path
+        path = path.substr(repo.length);
+      }
+      
+      // Redirect to the index.html with the path as a query parameter
+      var redirectUrl = window.location.origin + repo + '?path=' + path;
+      window.location.replace(redirectUrl);
+    })();
+  </script>
+</head>
+<body>
+  <p>Redirecting to the app...</p>
+</body>
+</html>
