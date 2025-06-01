@@ -8,7 +8,11 @@ declare module "@remix-run/node" {
   }
 }
 
+// Get repository name for GitHub Pages base path
+const BASE_PATH = process.env.GITHUB_REPOSITORY?.split('/')?.[1] || '';
+
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? `/${BASE_PATH}/` : '/',
   plugins: [
     remix({
       future: {
