@@ -52,14 +52,17 @@ jobs:
           # Add .nojekyll file to bypass Jekyll processing
           touch build/client/.nojekyll
           
-          # Copy 200.html to index.html if it exists
-          if [ -f build/client/200.html ]; then
-            cp build/client/200.html build/client/index.html
-            echo "Created index.html from 200.html"
-          else
-            echo "Creating a basic index.html"
-            echo "<!DOCTYPE html><html><head><meta http-equiv='refresh' content='0;url=/react-remix-form-builder/'></head><body>Redirecting...</body></html>" > build/client/index.html
+          # Use entry.html as main index.html to avoid redirect loops
+          if [ -f public/entry.html ]; then
+            cp public/entry.html build/client/index.html
+            echo "Created index.html from entry.html"
           fi
+          
+          # Create a simple fallback for all routes
+          cp public/entry.html build/client/404.html
+          
+          # Remove any problematic redirect scripts
+          rm -f build/client/spa-redirect.js || true
           
           # List contents to verify
           echo "Contents of build/client directory:"
